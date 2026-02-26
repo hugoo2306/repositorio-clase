@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio de la Clase</title>
+    <style>
+        /* CSS: Estilos inspirados en el imagotipo */
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabecera con el logotipo */
+        header {
+            background-color: #ff3b3b; /* Color rojo a juego con el logo */
+            width: 100%;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo-img {
+            max-width: 300px; /* Ajusta el tamaño de tu imagen aquí */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        h1 { color: #1a2a3a; margin-bottom: 30px; text-align: center; }
+
+        .menu-asignaturas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .btn-asignatura {
+            padding: 15px;
+            border: 2px solid #ff3b3b;
+            border-radius: 12px;
+            background-color: white;
+            color: #ff3b3b;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-asignatura:hover {
+            background-color: #ff3b3b;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .btn-asignatura.active {
+            background-color: #1a2a3a;
+            border-color: #1a2a3a;
+            color: white;
+        }
+
+        #contenedor-enlaces {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: none;
+            margin-bottom: 50px;
+        }
+
+        .enlace-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #fff5f5;
+            border-left: 5px solid #ff3b3b;
+            border-radius: 5px;
+        }
+
+        .enlace-card a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            background: #ff3b3b;
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="logo.png" alt="Repositorio de la Clase" class="logo-img">
+    </header>
+
+    <h1>📚 Panel de Recursos</h1>
+
+    <div class="menu-asignaturas">
+        <button class="btn-asignatura" onclick="mostrarEnlaces('redes', this)">Redes</button>
+        <button class="btn-asignatura" onclick="mostrarEnlaces('som', this)">SOM</button>
+        <button class="btn-asignatura" onclick="mostrarEnlaces('robotica', this)">Robótica</button>
+        <button class="btn-asignatura" onclick="mostrarEnlaces('mme', this)">MME</button>
+        <button class="btn-asignatura" onclick="mostrarEnlaces('ao', this)">AO</button>
+        <button class="btn-asignatura" onclick="mostrarEnlaces('ipe', this)">IPE</button>
+    </div>
+
+    <div id="contenedor-enlaces">
+        <h2 id="titulo-asignatura">Selecciona una asignatura</h2>
+        <div id="lista-enlaces"></div>
+    </div>
+
+    <script>
+        const baseDeDatos = {
+            "redes": [
+                {
+                    titulo: "Redes T3",
+                    url: "https://1drv.ms/w/c/e338c1cef58d8fb2/IQCyg_8_esq-Q7NyAw51yzirAaxuBmdy8gfApw6Pn2Swbms?e=ycojUS"
+                }
+            ],
+            "som": [],
+            "robotica": [],
+            "mme": [],
+            "ao": [],
+            "ipe": []
+        };
+
+        function mostrarEnlaces(idAsignatura, elementoBoton) {
+            const contenedor = document.getElementById('contenedor-enlaces');
+            const lista = document.getElementById('lista-enlaces');
+            const titulo = document.getElementById('titulo-asignatura');
+
+            document.querySelectorAll('.btn-asignatura').forEach(btn => btn.classList.remove('active'));
+            elementoBoton.classList.add('active');
+
+            titulo.innerText = "Recursos de " + idAsignatura.toUpperCase();
+            lista.innerHTML = "";
+
+            const enlaces = baseDeDatos[idAsignatura];
+
+            if (enlaces.length === 0) {
+                lista.innerHTML = "<p style='color: #888;'>No hay enlaces disponibles todavía.</p>";
+            } else {
+                enlaces.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'enlace-card';
+                    div.innerHTML = `
+                        <a href="${item.url}" target="_blank">${item.titulo}</a>
+                        <span class="badge">Nuevo</span>
+                    `;
+                    lista.appendChild(div);
+                });
+            }
+            contenedor.style.display = "block";
+        }
+    </script>
+</body>
+</html>
